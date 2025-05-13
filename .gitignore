@@ -1,0 +1,24 @@
+# Bytecode Pythona
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Środowiska wirtualne
+venv/
+env/
+ENV/
+
+# Pliki IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dane generowane przez program
+data/*.csv
+reports/*.html
+reports/*.png
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
