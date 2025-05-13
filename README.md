@@ -24,7 +24,7 @@ System monitorujący stan skupienia kierowcy przy użyciu kamery internetowej. W
 
 ```bash
 # Klonowanie repozytorium
-git clone https://github.com/[twój-użytkownik]/driver-monitoring-system.git
+git clone https://github.com/Jakub345/driver-monitoring-system.git
 cd driver-monitoring-system
 
 # Instalacja zależności
