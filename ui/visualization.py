@@ -103,7 +103,7 @@ class Visualizer:
             else:
                 color = (0, 255, 0)  # Zielony
             
-            drowsiness_text = f"Senność: {drowsiness_score:.2f}"
+            drowsiness_text = f"Sennosc: {drowsiness_score:.2f}"
             cv2.putText(result_image, drowsiness_text, (30, 180),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, color, 2)
         

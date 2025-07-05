@@ -16,6 +16,10 @@ from ui.alerts import AlertSystem
 from utils.logger import DataLogger
 from utils.reports import ReportGenerator
 from config import Config
+import serial
+
+PORT = "COM8"
+BAUD = 9600
 
 def main():
     # Inicjalizacja konfiguracji
@@ -38,6 +42,15 @@ def main():
     # Inicjalizacja loggera
     data_logger = DataLogger("data")
     
+    # ---- OTWIERAMY PORT SZEREGOWY ----
+    try:
+        arduino = serial.Serial(PORT, BAUD, timeout=0.1)
+        time.sleep(2)  # chwila na reset Arduino
+        print("Połączono z Arduino na", PORT)
+    except serial.SerialException as e:
+        print("Błąd otwarcia portu szeregowego:", e)
+        arduino = None
+
     # Inicjalizacja kamery
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
@@ -57,6 +70,21 @@ def main():
     
     running = True
     while running and cap.isOpened():
+        if arduino and arduino.in_waiting:
+            line = arduino.readline().decode('utf-8', errors='ignore').strip()
+            if line:
+                print(f"[Arduino] {line}")
+                if "UWAGA: Wolny puls wykryty!" in line:
+                    alert_result = alert_system.manual_alert("low_pulse", alert_level=3)
+                    data_logger.log({
+                        'pulse_alert': True,
+                        'pulse_msg': line,
+                        **alert_result
+                    })
+                else:
+                    data_logger.log({'pulse_data': line})
+
+
         # Odczyt klatki
         success, frame = cap.read()
         if not success:

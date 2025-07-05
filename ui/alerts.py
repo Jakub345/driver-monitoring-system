@@ -46,6 +46,25 @@ class AlertSystem:
             'alert_level': alert_level,
             'alert_type': alert_type
         }
+
+    def manual_alert(self, alert_type: str, alert_level: int = 3):
+        """
+        Ręczne wywołanie alarmu, np. z odczytu Arduino.
+        :param alert_type: etykieta alarmu, np. "low_pulse"
+        :param alert_level: poziom alarmu (2=średni, 3=krytyczny)
+        :return: dict w formacie update(), do dalszej obsługi w main.py
+        """
+        # Jeżeli nowy poziom jest wyższy, zagraj dźwięk
+        if alert_level > self.current_alert_level:
+            self._play_alert_sound(alert_level)
+        # Zaktualizuj stan
+        self.current_alert_level = alert_level
+        # Zwróć wynik tak, jak update()
+        return {
+            'alert_level': alert_level,
+            'alert_type': alert_type
+        }
+
     
     def _play_alert_sound(self, alert_level):
         """Odtwarza dźwięk alarmu."""
