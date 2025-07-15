@@ -29,10 +29,6 @@ class Visualizer:
         for (ex, ey, ew, eh) in face_result['eyes']:
             cv2.rectangle(result_image, (x+ex, y+ey), (x+ex+ew, y+ey+eh), (0, 255, 0), 2)
         
-        # Wyświetlanie liczby oczu
-        cv2.putText(result_image, f"Oczy: {face_result['filtered_eye_count']:.1f}/{face_result['eye_count']}", 
-                   (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        
         return result_image
     
     def draw_head_info(self, image, head_result):
